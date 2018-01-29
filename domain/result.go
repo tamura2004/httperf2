@@ -19,15 +19,3 @@ func NewResult(j *Job, cp CheckPoint) *Result {
 		Duration: time.Since(j.Stime),
 	}
 }
-
-func StartResult(j *Job) *Result {
-	return NewResult(j, START)
-}
-
-func ConnectResult(j *Job) *Result {
-	return NewResult(j, CONNECT)
-}
-
-func FinishResult(j *Job) *Result {
-	return NewResult(j, Finish)
-}

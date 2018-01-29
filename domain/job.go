@@ -29,3 +29,15 @@ func getId() int {
 	mu.Unlock()
 	return id
 }
+
+func (j *Job) TimeStart() *Result {
+	return NewResult(j, START)
+}
+
+func (j *Job) TimeConnect() *Result {
+	return NewResult(j, CONNECT)
+}
+
+func (j *Job) TimeFinish() *Result {
+	return NewResult(j, FINISH)
+}
