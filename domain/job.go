@@ -9,17 +9,15 @@ type Job struct {
 	Id    int
 	Stime time.Time
 	Worker
-	*Target
 }
 
 var mu sync.Mutex
 var id int
 
-func NewJob(t *Target) *Job {
+func NewJob() *Job {
 	return &Job{
-		Id:     getId(),
-		Stime:  time.Now(),
-		Target: t,
+		Id:    getId(),
+		Stime: time.Now(),
 	}
 }
 

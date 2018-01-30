@@ -6,15 +6,9 @@ import (
 	"log"
 )
 
-type Config struct {
-	Client   domain.Client
-	Target   domain.Target
-	Scinario domain.Scinario
-}
+var config domain.Config
 
-var config Config
-
-func NewConfig() Config {
+func NewConfig() domain.Config {
 	_, err := toml.DecodeFile("config.toml", &config)
 	if err != nil {
 		log.Fatal(err)

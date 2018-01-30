@@ -6,10 +6,8 @@ import (
 )
 
 func TestNewJob(t *testing.T) {
-	url := "http://example.com/"
-	target := domain.NewTarget(url)
-	domain.NewJob(target)      //id 1
-	j := domain.NewJob(target) //id 2
+	domain.NewJob()      //id 1
+	j := domain.NewJob() //id 2
 
 	got := j.Id
 	want := 2

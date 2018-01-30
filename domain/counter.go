@@ -4,29 +4,40 @@ import (
 	"time"
 )
 
-type Unit int
-
-const (
-	TPS Unit = iota + 1
-	TPM
-)
-
-type TimeStamp string
-
 type Counter struct {
-	Tr    []map[TimeStamp]int
+	TPS   map[string]int
+	TPM   map[string]int
 	Count int
 	Multi int
 	Total time.Duration
 }
 
-func (u Unit) String() string {
-	switch u {
-	case TPS:
-		return "TPS"
-	case TPM:
-		return "TPM"
-	default:
-		return "undefined"
+func NewCounter() *Counter {
+	return &Counter{
+		TPS: make(map[string]int),
+		TPM: make(map[string]int),
 	}
+}
+
+func (c *Counter) IncTp() {
+	c.IncTPM()
+	c.IncTPS()
+}
+
+func (c *Counter) IncTPM() {
+	t := time.Now().Format("2006-01-02,15:04")
+	c.TPM[t]++
+}
+
+func (c *Counter) IncTPS() {
+	t := time.Now().Format("2006-01-02,15:04:05")
+	c.TPS[t]++
+}
+
+func (c *Counter) IncMulti() {
+	c.Multi++
+}
+
+func (c *Counter) DecMulti() {
+	c.Multi--
 }

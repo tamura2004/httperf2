@@ -2,6 +2,7 @@ package infra
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -15,4 +16,19 @@ func CreateFile(pre, format, ext string) *os.File {
 		log.Fatal(err)
 	}
 	return file
+}
+
+type FileFactory struct{}
+
+func NewFileFactory() *FileFactory {
+	return &FileFactory{}
+}
+
+func (f *FileFactory) CreateFile(pre, format, ext string) io.Writer {
+	return CreateFile(pre, format, ext)
+}
+
+func (f *FileFactory) CreateTeeFile(pre, format, ext string) io.Writer {
+	file := CreateFile(pre, format, ext)
+	return io.MultiWriter(file, os.Stdout)
 }

@@ -10,8 +10,8 @@ import (
 )
 
 type Client struct {
-	domain domain.Client
-	http   http.Client
+	domain.Client
+	http http.Client
 }
 
 func (c *Client) Get(url string) io.ReadCloser {
@@ -19,8 +19,8 @@ func (c *Client) Get(url string) io.ReadCloser {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if c.domain.Bps != 0 {
-		return NewSlowReader(res.Body, c.domain.Bps)
+	if c.Bps != 0 {
+		return NewSlowReader(res.Body, c.Bps)
 	}
 	return res.Body
 }
@@ -30,7 +30,7 @@ func NewClient(c domain.Client) *Client {
 	cl := http.Client{Transport: tr}
 	return &Client{
 		http:   cl,
-		domain: c,
+		Client: c,
 	}
 }
 
