@@ -5,10 +5,10 @@ import (
 	"time"
 )
 
-var now = time.Now
+var Now = time.Now
 
 func init() {
-	rand.Seed(time.Now().UnixNano())
+	rand.Seed(Now().UnixNano())
 }
 
 type Duration struct {
@@ -26,7 +26,9 @@ func (d *Duration) String() string {
 }
 
 func (d *Duration) Sleep() {
-	time.Sleep(d.Duration * time.Duration(rand.ExpFloat64()))
+	time.Sleep(d.ExpRand())
 }
 
-// time.Sleep(d * time.Duration(rand.ExpFloat64()))
+func (d *Duration) ExpRand() time.Duration {
+	return time.Duration(float64(d.Duration) * rand.ExpFloat64())
+}
