@@ -18,8 +18,7 @@ func NewManager(m *domain.Manager, c *Collector) *Manager {
 
 func (m *Manager) Run() {
 	for i := 0; i < m.Scinario.Worker; i++ {
-		m.Scinario.RampUp.Sleep()
-		worker := NewWorker(m)
+		worker := NewWorker(m, i)
 		m.WaitGroup.Add(1)
 		go worker.Run(m.WaitGroup)
 	}

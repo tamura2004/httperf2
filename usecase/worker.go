@@ -14,9 +14,9 @@ type Client interface {
 	Get(string) io.ReadCloser
 }
 
-func NewWorker(m *Manager) *Worker {
+func NewWorker(m *Manager, id int) *Worker {
 	return &Worker{
-		Worker: domain.NewWorker(m.Manager),
+		Worker: domain.NewWorker(m.Manager, id),
 	}
 }
 
@@ -24,8 +24,9 @@ func (w *Worker) Run(wg domain.WaitGroup) {
 	defer wg.Done()
 
 	for i := 0; i < w.Scinario.Count; i++ {
-		job := domain.NewJob()
+		w.Scinario.RampUp.Sleep()
 
+		job := domain.NewJob(i)
 		w.Result <- job.TimeStart()
 
 		r := w.Connect()

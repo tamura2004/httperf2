@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"sync"
 	"time"
 )
 
@@ -11,21 +10,11 @@ type Job struct {
 	Worker
 }
 
-var mu sync.Mutex
-var id int
-
-func NewJob() *Job {
+func NewJob(id int) *Job {
 	return &Job{
-		Id:    getId(),
+		Id:    id,
 		Stime: time.Now(),
 	}
-}
-
-func getId() int {
-	mu.Lock()
-	id++
-	mu.Unlock()
-	return id
 }
 
 func (j *Job) TimeStart() *Result {

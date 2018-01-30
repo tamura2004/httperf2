@@ -1,9 +1,5 @@
 package domain
 
-import (
-	"sync"
-)
-
 type Worker struct {
 	Id int
 	Config
@@ -12,19 +8,9 @@ type Worker struct {
 	Client client
 }
 
-var workerMutex sync.Mutex
-var workerId int
-
-func getWorkerId() int {
-	workerMutex.Lock()
-	workerId++
-	workerMutex.Unlock()
-	return workerId
-}
-
-func NewWorker(m *Manager) *Worker {
+func NewWorker(m *Manager, id int) *Worker {
 	return &Worker{
-		Id:        getWorkerId(),
+		Id:        id,
 		Config:    m.Config,
 		Result:    m.Result,
 		WaitGroup: m.WaitGroup,

@@ -6,8 +6,7 @@ import (
 )
 
 func TestNewJob(t *testing.T) {
-	domain.NewJob()      //id 1
-	j := domain.NewJob() //id 2
+	j := domain.NewJob(2)
 
 	got := j.Id
 	want := 2
