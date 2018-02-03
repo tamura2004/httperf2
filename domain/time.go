@@ -9,7 +9,15 @@ var Now = time.Now
 
 func init() {
 	rand.Seed(Now().UnixNano())
+
 }
+
+// type Duration interface {
+// 	UnmarshalText(text []byte) error
+// 	String() string
+// 	Sleep()
+// 	ExpRand() Duration
+// }
 
 type Duration struct {
 	time.Duration
