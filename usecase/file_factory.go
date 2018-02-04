@@ -4,13 +4,13 @@ import (
 	"io"
 )
 
-type FileFactory interface {
+type fileFactory interface {
 	Create(pre, ext string) io.Writer
 	CreateTee(pre, ext string) io.Writer
 }
 
-var fileFactory FileFactory
+var FileFactory fileFactory
 
-func InitFileFactory(f FileFactory) {
-	fileFactory = f
+func InitFileFactory(f fileFactory) {
+	FileFactory = f
 }

@@ -3,15 +3,17 @@ package infra
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"log"
+	"os"
 	"os/exec"
 	"strings"
 	"time"
 )
 
 func Netstat() {
-	ff := NewFileFactory()
-	file := ff.CreateTeeFile("NETSTAT", "20060102150405", "csv")
+	f := CreateFile("NETSTAT", "csv")
+	file := io.MultiWriter(f, os.Stdout)
 	fmt.Fprintln(file, "DATE,TIME,TYPE,HOSTNAME,ESTABLISHED,CLOSE_WAIT,SYN_SENT")
 	hostname := GetHostname()
 

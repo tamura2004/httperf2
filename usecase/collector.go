@@ -6,24 +6,23 @@ import (
 
 type Collector struct {
 	Counter *domain.Counter
-	Result  chan *domain.Result
 	*Reporter
 }
 
-func NewCollector(res chan *domain.Result, rep *Reporter) *Collector {
+func NewCollector(rep *Reporter) *Collector {
 	return &Collector{
 		Counter:  domain.NewCounter(),
-		Result:   res,
 		Reporter: rep,
 	}
 }
 
 func (c *Collector) Run() {
-	for result := range c.Result {
+	for result := range resultChan {
 		c.CollectResult(result)
 	}
 	c.Reporter.ReportTPM(c.Counter)
 	c.Reporter.ReportTPS(c.Counter)
+	c.Reporter.ReportAverage(c.Counter)
 }
 
 func (c *Collector) CollectResult(r *domain.Result) {
@@ -39,5 +38,6 @@ func (c *Collector) CollectResult(r *domain.Result) {
 		c.ReportResult(r)
 		c.Counter.IncTp()
 		c.Counter.DecMulti()
+		c.Counter.AddDuration(r.Duration)
 	}
 }

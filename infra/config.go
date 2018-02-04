@@ -2,16 +2,26 @@ package infra
 
 import (
 	"github.com/BurntSushi/toml"
-	"github.com/tamura2004/httperf2/domain"
+	"github.com/tamura2004/httperf2/usecase"
 	"log"
 )
 
-var config domain.Config
+type config struct {
+	Client   clientConfig
+	Scinario usecase.ScinarioConfig
+	Target   usecase.TargetConfig
+}
 
-func NewConfig() domain.Config {
-	_, err := toml.DecodeFile("config.toml", &config)
+var Config config
+
+func InitConfig(fileName string) {
+	_, err := toml.DecodeFile(fileName, &Config)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return config
+
+	ClientConfig = Config.Client
+	usecase.InitScinarioConfig(Config.Scinario)
+	usecase.InitTargetConfig(Config.Target)
+
 }

@@ -3,16 +3,16 @@ package domain_test
 import (
 	"fmt"
 	"github.com/tamura2004/httperf2/domain"
-	"github.com/tamura2004/httperf2/infra"
+	"github.com/tamura2004/httperf2/infra/mock"
 	"testing"
 )
 
 func TestNewJob(t *testing.T) {
-	infra.InitMockTime()
+	mock.InitTime()
 
-	j := domain.NewJob(2)
+	j := domain.NewJob(1, 2)
 
-	got := j.Id
+	got := j.JobId
 	want := 2
 
 	if got != want {
@@ -21,9 +21,9 @@ func TestNewJob(t *testing.T) {
 }
 
 func ExampleNewJob() {
-	infra.InitMockTime()
-	j := domain.NewJob(3)
+	mock.InitTime()
+	j := domain.NewJob(2, 3)
 	fmt.Println(j)
 	// Output:
-	// &{3 2018-02-01 08:00:00 +0000 UTC {0 {{false 0  0} {0 0 {0s} {0s}} {}} <nil> <nil> <nil>}}
+	// {2 3 2018-02-01 08:00:00 +0000 UTC}
 }

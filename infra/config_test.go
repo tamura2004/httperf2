@@ -6,22 +6,14 @@ import (
 )
 
 func ExampleNewConfigClient() {
-	config := infra.NewConfig()
-	fmt.Printf("%#v", config.Client)
-	// Output:
-	// domain.Client{InsecureSkipVerify:true, MaxIdleConnsPerHost:1024, Proxy:"", Bps:0}
-}
+	infra.InitConfig("config.test")
 
-func ExampleNewConfigScinario() {
-	config := infra.NewConfig()
-	fmt.Printf("%#v", config.Scinario)
+	fmt.Println(infra.Config.Client)
+	fmt.Println(infra.Config.Scinario)
+	fmt.Println(infra.Config.Target)
 	// Output:
-	// domain.Scinario{Worker:3, Count:3, RampUp:domain.Duration{Duration:100}, Interval:domain.Duration{Duration:3000000}}
-}
+	// {true 1024  0}
+	// {0 3 {100ns} {3ms}}
+	// {https://ogisui.azurewebsites.net}
 
-func ExampleNewConfigTarget() {
-	config := infra.NewConfig()
-	fmt.Printf("%#v", config.Target)
-	// Output:
-	//domain.Target{Url:"https://ogisui.azurewebsites.net"}
 }

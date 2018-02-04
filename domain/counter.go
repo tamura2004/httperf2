@@ -46,3 +46,7 @@ func (c *Counter) IncMulti() {
 func (c *Counter) DecMulti() {
 	c.Multi--
 }
+
+func (c *Counter) Average() time.Duration {
+	return c.Total / time.Duration(c.Count)
+}

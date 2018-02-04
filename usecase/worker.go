@@ -7,41 +7,33 @@ import (
 )
 
 type Worker struct {
-	*domain.Worker
+	Id int
 }
 
-type Client interface {
-	Get(string) io.ReadCloser
-}
-
-func NewWorker(m *Manager, id int) *Worker {
+func NewWorker(id int) *Worker {
 	return &Worker{
-		Worker: domain.NewWorker(m.Manager, id),
+		Id: id,
 	}
 }
 
-func (w *Worker) Run(wg domain.WaitGroup) {
-	defer wg.Done()
+func (w *Worker) Run() {
+	defer waitGroup.Done()
 
-	w.Scinario.RampUp.Times(w.Id).Sleep()
+	Scinario.RampUp.Times(w.Id).Sleep()
 
-	for i := 0; i < w.Scinario.Count; i++ {
+	for i := 0; i < Scinario.Count; i++ {
 
-		job := domain.NewJob(i)
-		w.Result <- job.TimeStart()
+		job := domain.NewJob(w.Id, i)
+		resultChan <- job.TimeStart()
 
-		r := w.Connect()
-		w.Result <- job.TimeConnect()
+		r := client.Get(Target.Url)
+		resultChan <- job.TimeConnect()
 
 		w.Write(r)
-		w.Result <- job.TimeFinish()
+		resultChan <- job.TimeFinish()
 
-		w.Scinario.Interval.Sleep()
+		Scinario.Interval.Sleep()
 	}
-}
-
-func (w *Worker) Connect() io.ReadCloser {
-	return w.Client.Get(w.Target.Url)
 }
 
 func (w *Worker) Write(r io.ReadCloser) {

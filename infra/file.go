@@ -22,7 +22,7 @@ func CreateFile(pre, ext string) *os.File {
 type fileFactory struct{}
 
 func InitFileFactory() {
-	usecaseInitFileFactory(&fileFactory{})
+	usecase.InitFileFactory(&fileFactory{})
 }
 
 func (f *fileFactory) Create(pre, ext string) io.Writer {

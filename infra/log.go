@@ -7,7 +7,7 @@ import (
 )
 
 func InitLogger() {
-	file := CreateFile("log", "20060102", "log")
+	file := CreateFile("log", "log")
 	log.SetOutput(io.MultiWriter(file, os.Stdout))
 	log.SetFlags(log.Ldate | log.Ltime)
 }

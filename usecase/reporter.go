@@ -11,21 +11,21 @@ type Reporter struct {
 }
 
 func NewReporter() *Reporter {
-	logfile := fileFactory.CreateTee("log", "csv")
-	fmt.Fprintln(logfile, resultEncoder.Header())
+	logfile := FileFactory.CreateTee("log", "csv")
+	fmt.Fprintln(logfile, ResultEncoder.Header())
 	return &Reporter{
 		Logfile: logfile,
 	}
 }
 
 func (re *Reporter) ReportResult(r *domain.Result) {
-	fmt.Fprintf(re.Logfile, "%s\n", resultEncoder.Encode(r))
+	fmt.Fprintf(re.Logfile, "%s\n", ResultEncoder.Encode(r))
 }
 
 func (re *Reporter) ReportTp(c *domain.Counter, name string) {
-	file := fileFactory.CreateTee(name, "csv")
-	fmt.Fprintln(file, tpEncoder.Header(name))
-	for _, row := range tpEncoder.Encode(c, name) {
+	file := FileFactory.CreateTee(name, "csv")
+	fmt.Fprintln(file, TpEncoder.Header(name))
+	for _, row := range TpEncoder.Encode(c, name) {
 		fmt.Fprintln(file, row)
 	}
 }
@@ -36,4 +36,8 @@ func (re *Reporter) ReportTPM(c *domain.Counter) {
 
 func (re *Reporter) ReportTPS(c *domain.Counter) {
 	re.ReportTp(c, "TPS")
+}
+
+func (re *Reporter) ReportAverage(c *domain.Counter) {
+	AveragePrinter.Print(c)
 }

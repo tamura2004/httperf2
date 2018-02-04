@@ -5,26 +5,27 @@ import (
 )
 
 type Job struct {
-	Id    int
-	Stime time.Time
-	Worker
+	WorkerId int
+	JobId    int
+	Stime    time.Time
 }
 
-func NewJob(id int) *Job {
-	return &Job{
-		Id:    id,
-		Stime: _time.Now(),
+func NewJob(w, j int) Job {
+	return Job{
+		WorkerId: w,
+		JobId:    j,
+		Stime:    _time.Now(),
 	}
 }
 
-func (j *Job) TimeStart() *Result {
+func (j Job) TimeStart() *Result {
 	return NewResult(j, START)
 }
 
-func (j *Job) TimeConnect() *Result {
+func (j Job) TimeConnect() *Result {
 	return NewResult(j, CONNECT)
 }
 
-func (j *Job) TimeFinish() *Result {
+func (j Job) TimeFinish() *Result {
 	return NewResult(j, FINISH)
 }

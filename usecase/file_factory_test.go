@@ -1,14 +1,15 @@
-package usecase
+package usecase_test
 
 import (
-	"fmt"
 	"github.com/tamura2004/httperf2/infra"
+	"github.com/tamura2004/httperf2/usecase"
+	"testing"
 )
 
-func ExampleInitFileFactory() {
+func TestInitFileFactory(t *testing.T) {
 	infra.InitFileFactory()
 
-	fmt.Println(fileFactory)
-	// Output:
-	// -
+	if usecase.FileFactory == nil {
+		t.Error("bad init file factory")
+	}
 }

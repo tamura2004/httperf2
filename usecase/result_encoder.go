@@ -1,12 +1,16 @@
 package usecase
 
-type ResultEncoder interface {
-	Encode(*domain.Result, string) string
+import (
+	"github.com/tamura2004/httperf2/domain"
+)
+
+type resultEncoder interface {
+	Encode(*domain.Result) string
 	Header() string
 }
 
-var resultEncoder ResultEncoder
+var ResultEncoder resultEncoder
 
-func InitResultEncoder(e ResultEncoder) {
-	resultEncoder = e
+func InitResultEncoder(e resultEncoder) {
+	ResultEncoder = e
 }

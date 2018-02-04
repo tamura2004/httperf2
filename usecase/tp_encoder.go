@@ -1,17 +1,16 @@
 package usecase
 
 import (
-	"fmt"
 	"github.com/tamura2004/httperf2/domain"
 )
 
-type TpEncoder interface {
+type tpEncoder interface {
 	Encode(*domain.Counter, string) []string
 	Header(string) string
 }
 
-var tpEncoder TpEncoder
+var TpEncoder tpEncoder
 
-func InitTpEncoder(e TpEncoder) {
-	tpEncoder = e
+func InitTpEncoder(e tpEncoder) {
+	TpEncoder = e
 }

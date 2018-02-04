@@ -1,31 +1,25 @@
 package usecase
 
-import (
-	"github.com/tamura2004/httperf2/domain"
-)
-
 type Manager struct {
-	*domain.Manager
 	*Collector
 }
 
-func NewManager(m *domain.Manager, c *Collector) *Manager {
+func NewManager(c *Collector) *Manager {
 	return &Manager{
-		Manager:   m,
 		Collector: c,
 	}
 }
 
 func (m *Manager) Run() {
-	for i := 0; i < m.Scinario.Worker; i++ {
-		worker := NewWorker(m, i)
-		m.WaitGroup.Add(1)
-		go worker.Run(m.WaitGroup)
+	for i := 0; i < Scinario.WorkerNum; i++ {
+		worker := NewWorker(i)
+		waitGroup.Add(1)
+		go worker.Run()
 	}
 
 	go func() {
-		m.WaitGroup.Wait()
-		close(m.Manager.Result)
+		waitGroup.Wait()
+		close(resultChan)
 	}()
 
 	m.Collector.Run()

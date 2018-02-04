@@ -1,14 +1,15 @@
-package usecase
+package usecase_test
 
 import (
-	"fmt"
-	"github.com/tamura2004/httperf2/infra"
+	"github.com/tamura2004/httperf2/interfaces/presenters"
+	"github.com/tamura2004/httperf2/usecase"
+	"testing"
 )
 
-func ExampleInitTpEncoder() {
-	infra.InitTpEncoder()
+func TestInitTpEncoder(t *testing.T) {
+	presenters.InitTpEncoder()
 
-	fmt.Println(tpEncoder)
-	// Output:
-	// -
+	if usecase.TpEncoder == nil {
+		t.Error("bad tp encoder")
+	}
 }

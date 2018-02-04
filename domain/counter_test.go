@@ -3,12 +3,13 @@ package domain_test
 import (
 	"fmt"
 	"github.com/tamura2004/httperf2/domain"
-	"github.com/tamura2004/httperf2/infra"
+	"github.com/tamura2004/httperf2/infra/mock"
 	"time"
 )
 
 func ExampleNewCounter() {
-	infra.InitMockTime()
+	mock.InitTime()
+
 	c := domain.NewCounter()
 	c.AddDuration(10 * time.Second)
 	c.IncTp()
