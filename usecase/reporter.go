@@ -6,49 +6,26 @@ import (
 	"io"
 )
 
-type ResultEncoder interface {
-	EncodeResult(*domain.Result, string) string
-	HeaderResult() string
-}
-
-type TpEncoder interface {
-	EncodeTp(*domain.Counter, string, string) []string
-	HeaderTp(string) string
-}
-
 type Reporter struct {
 	Logfile io.Writer
-	FileFactory
-	ResultEncoder
-	TpEncoder
-	Hostname string
 }
 
-type FileFactory interface {
-	CreateFile(pre, format, ext string) io.Writer
-	CreateTeeFile(pre, format, ext string) io.Writer
-}
-
-func NewReporter(f FileFactory, e ResultEncoder, t TpEncoder, h string) *Reporter {
-	logfile := f.CreateTeeFile("log", "20060102150405", "csv")
-	fmt.Fprintln(logfile, e.HeaderResult())
+func NewReporter() *Reporter {
+	logfile := fileFactory.CreateTee("log", "csv")
+	fmt.Fprintln(logfile, resultEncoder.Header())
 	return &Reporter{
-		Logfile:       logfile,
-		FileFactory:   f,
-		ResultEncoder: e,
-		TpEncoder:     t,
-		Hostname:      h,
+		Logfile: logfile,
 	}
 }
 
 func (re *Reporter) ReportResult(r *domain.Result) {
-	fmt.Fprintf(re.Logfile, "%s\n", re.EncodeResult(r, re.Hostname))
+	fmt.Fprintf(re.Logfile, "%s\n", resultEncoder.Encode(r))
 }
 
 func (re *Reporter) ReportTp(c *domain.Counter, name string) {
-	file := re.CreateTeeFile(name, "20060102150405", "csv")
-	fmt.Fprintln(file, re.HeaderTp(name))
-	for _, row := range re.EncodeTp(c, name, re.Hostname) {
+	file := fileFactory.CreateTee(name, "csv")
+	fmt.Fprintln(file, tpEncoder.Header(name))
+	for _, row := range tpEncoder.Encode(c, name) {
 		fmt.Fprintln(file, row)
 	}
 }

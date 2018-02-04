@@ -23,8 +23,9 @@ func NewWorker(m *Manager, id int) *Worker {
 func (w *Worker) Run(wg domain.WaitGroup) {
 	defer wg.Done()
 
+	w.Scinario.RampUp.Times(w.Id).Sleep()
+
 	for i := 0; i < w.Scinario.Count; i++ {
-		w.Scinario.RampUp.Sleep()
 
 		job := domain.NewJob(i)
 		w.Result <- job.TimeStart()

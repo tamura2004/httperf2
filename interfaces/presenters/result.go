@@ -3,21 +3,24 @@ package presenters
 import (
 	"fmt"
 	"github.com/tamura2004/httperf2/domain"
+	"os"
 	"strings"
 )
 
+var Hostname = os.Hostname
+
 type resultEncoder struct{}
 
-func (e *resultEncoder) HeaderResult() string {
+func (e *resultEncoder) Header() string {
 	return "DATE,TIME,TYPE,HOSTNAME,WORKER,JOB,CHECK,DURATION,SDATE,STIME"
 }
 
-func (e *resultEncoder) EncodeResult(r *domain.Result, hostname string) string {
+func (e *resultEncoder) Encode(r *domain.Result) string {
 	a := []string{
 		r.Time.Format("2006-01-02"),
 		r.Time.Format("15:04:05"),
 		"RESULT",
-		hostname,
+		Hostname(),
 		fmt.Sprint(r.Job.Worker.Id),
 		fmt.Sprint(r.Job.Id),
 		r.Check.String(),
@@ -29,6 +32,6 @@ func (e *resultEncoder) EncodeResult(r *domain.Result, hostname string) string {
 	return strings.Join(a, ",")
 }
 
-func NewResultEncoder() *resultEncoder {
-	return &resultEncoder{}
+func InitResultEnconder() {
+	presenters.InitResultEncoder(&resultEncoder{})
 }

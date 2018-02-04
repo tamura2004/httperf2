@@ -5,10 +5,23 @@ import (
 	"github.com/tamura2004/httperf2/infra"
 )
 
-func ExampleNewConfig() {
+func ExampleNewConfigClient() {
 	config := infra.NewConfig()
-	fmt.Printf("%#v", config)
+	fmt.Printf("%#v", config.Client)
 	// Output:
-	// domain.Config{Client:domain.Client{InsecureSkipVerify:true, MaxIdleConnsPerHost:1024, Proxy:"", Bps:0}, Scinario:domain.Scinario{Worker:3, Count:3, RampUp:domain.Duration{Duration:100000000}, Interval:domain.Duration{Duration:3000000000}}, Target:domain.Target{Url:"https://ogisui.azurewebsites.net"}}
+	// domain.Client{InsecureSkipVerify:true, MaxIdleConnsPerHost:1024, Proxy:"", Bps:0}
+}
 
+func ExampleNewConfigScinario() {
+	config := infra.NewConfig()
+	fmt.Printf("%#v", config.Scinario)
+	// Output:
+	// domain.Scinario{Worker:3, Count:3, RampUp:domain.Duration{Duration:100}, Interval:domain.Duration{Duration:3000000}}
+}
+
+func ExampleNewConfigTarget() {
+	config := infra.NewConfig()
+	fmt.Printf("%#v", config.Target)
+	// Output:
+	//domain.Target{Url:"https://ogisui.azurewebsites.net"}
 }

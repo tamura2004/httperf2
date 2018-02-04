@@ -13,7 +13,7 @@ type Job struct {
 func NewJob(id int) *Job {
 	return &Job{
 		Id:    id,
-		Stime: time.Now(),
+		Stime: _time.Now(),
 	}
 }
 

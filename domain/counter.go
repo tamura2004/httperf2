@@ -19,18 +19,23 @@ func NewCounter() *Counter {
 	}
 }
 
+func (c *Counter) AddDuration(d time.Duration) {
+	c.Count++
+	c.Total += d
+}
+
 func (c *Counter) IncTp() {
 	c.IncTPM()
 	c.IncTPS()
 }
 
 func (c *Counter) IncTPM() {
-	t := time.Now().Format("2006-01-02,15:04")
+	t := _time.Now().Format("2006-01-02,15:04")
 	c.TPM[t]++
 }
 
 func (c *Counter) IncTPS() {
-	t := time.Now().Format("2006-01-02,15:04:05")
+	t := _time.Now().Format("2006-01-02,15:04:05")
 	c.TPS[t]++
 }
 

@@ -2,14 +2,15 @@ package infra
 
 import (
 	"fmt"
+	"github.com/tamura2004/httperf2/usecase"
 	"io"
 	"log"
 	"os"
 	"time"
 )
 
-func CreateFile(pre, format, ext string) *os.File {
-	timestamp := time.Now().Format(format)
+func CreateFile(pre, ext string) *os.File {
+	timestamp := time.Now().Format("2006_01_02_15_04_05_")
 	name := fmt.Sprintf("%s%s.%s", pre, timestamp, ext)
 	file, err := os.OpenFile(name, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
@@ -18,17 +19,17 @@ func CreateFile(pre, format, ext string) *os.File {
 	return file
 }
 
-type FileFactory struct{}
+type fileFactory struct{}
 
-func NewFileFactory() *FileFactory {
-	return &FileFactory{}
+func InitFileFactory() {
+	usecaseInitFileFactory(&fileFactory{})
 }
 
-func (f *FileFactory) CreateFile(pre, format, ext string) io.Writer {
-	return CreateFile(pre, format, ext)
+func (f *fileFactory) Create(pre, ext string) io.Writer {
+	return CreateFile(pre, ext)
 }
 
-func (f *FileFactory) CreateTeeFile(pre, format, ext string) io.Writer {
-	file := CreateFile(pre, format, ext)
+func (f *fileFactory) CreateTee(pre, ext string) io.Writer {
+	file := CreateFile(pre, ext)
 	return io.MultiWriter(file, os.Stdout)
 }

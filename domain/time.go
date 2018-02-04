@@ -5,10 +5,15 @@ import (
 	"time"
 )
 
-var Now = time.Now
+type clock interface {
+	Now() time.Time
+	Since(time.Time) time.Duration
+}
 
-func init() {
-	rand.Seed(Now().UnixNano())
+var _time clock
+
+func InitTime(c clock) {
+	_time = c
 }
 
 type Duration struct {
@@ -26,9 +31,17 @@ func (d *Duration) String() string {
 }
 
 func (d *Duration) Sleep() {
-	time.Sleep(d.ExpRand())
+	time.Sleep(d.ExpRand().Duration)
 }
 
-func (d *Duration) ExpRand() time.Duration {
-	return time.Duration(float64(d.Duration) * rand.ExpFloat64())
+func (d *Duration) ExpRand() *Duration {
+	return &Duration{
+		time.Duration(float64(d.Duration) * rand.ExpFloat64()),
+	}
+}
+
+func (d *Duration) Times(n int) *Duration {
+	return &Duration{
+		d.Duration * time.Duration(n),
+	}
 }
