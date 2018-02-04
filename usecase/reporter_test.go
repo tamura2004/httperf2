@@ -16,10 +16,11 @@ func ExampleReportResult() {
 		infra.GetHostname(),
 	)
 
-	job := domain.NewJob()
+	job := domain.NewJob(1)
 	result := job.TimeStart()
 
 	reporter.ReportResult(result)
 	// Output:
-	// -
+	// DATE,TIME,TYPE,HOSTNAME,WORKER,JOB,CHECK,DURATION,SDATE,STIME
+	// 2018-02-03,22:17:49,RESULT,scout,0,1,START,0s,2018-02-03,22:17:49
 }
