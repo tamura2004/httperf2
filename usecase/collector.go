@@ -2,16 +2,19 @@ package usecase
 
 import (
 	"github.com/tamura2004/httperf2/domain"
+	"log"
 	"time"
 )
 
 type Collector struct {
 	Counter *domain.Counter
+	Timer   *time.Timer
 }
 
 func NewCollector() *Collector {
 	return &Collector{
 		Counter: domain.NewCounter(),
+		Timer:   time.NewTimer(Scinario.Timeout.Duration),
 	}
 }
 
@@ -19,6 +22,8 @@ func (c *Collector) Run() {
 	CheckInit()
 
 	go c.CollectMulti()
+
+	go c.WatchTimeOut()
 
 	for result := range resultChan {
 		c.CollectResult(result)
@@ -34,6 +39,13 @@ func (c *Collector) CollectMulti() {
 	}
 }
 
+func (c *Collector) WatchTimeOut() {
+	for range c.Timer.C {
+		close(resultChan)
+		log.Println("time out")
+	}
+}
+
 func (c *Collector) CollectResult(r *domain.Result) {
 	CheckInit()
 
@@ -46,6 +58,7 @@ func (c *Collector) CollectResult(r *domain.Result) {
 		ResultPrinter.Print(r)
 
 	case domain.FINISH:
+		c.Timer.Reset(Scinario.Timeout.Duration)
 		ResultPrinter.Print(r)
 		c.Counter.IncTp()
 		c.Counter.DecMulti()
