@@ -15,7 +15,7 @@ func NewResult(j Job, cp CheckPoint) *Result {
 	return &Result{
 		Job:      j,
 		Check:    cp,
-		Time:     _time.Now(),
-		Duration: _time.Since(j.Stime),
+		Time:     Time.Now(),
+		Duration: Time.Since(j.Stime),
 	}
 }

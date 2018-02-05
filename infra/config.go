@@ -24,4 +24,8 @@ func InitConfig(fileName string) {
 	usecase.InitScinarioConfig(Config.Scinario)
 	usecase.InitTargetConfig(Config.Target)
 
+	log.Println("init config")
+	log.Println(Config.Client)
+	log.Println(Config.Scinario)
+	log.Println(Config.Target)
 }

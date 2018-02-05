@@ -3,7 +3,6 @@ package presenters
 import (
 	"fmt"
 	"github.com/tamura2004/httperf2/domain"
-	"github.com/tamura2004/httperf2/usecase"
 	"strings"
 )
 
@@ -28,8 +27,4 @@ func (e *ResultEncoder) Encode(r *domain.Result) string {
 	}
 	// data,time,host,worker,job,check,duration,sdate,stime
 	return strings.Join(a, ",")
-}
-
-func InitResultEncoder() {
-	usecase.InitResultEncoder(&ResultEncoder{})
 }

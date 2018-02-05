@@ -12,8 +12,8 @@ func ExampleNewConfigClient() {
 	fmt.Println(infra.Config.Scinario)
 	fmt.Println(infra.Config.Target)
 	// Output:
-	// {true 1024  0}
-	// {0 3 {100ns} {3ms}}
-	// {https://ogisui.azurewebsites.net}
+	// {true 1024 http://127.0.0.1:8888/ 13}
+	// {3 5 {110ns} {7ms}}
+	// {http://example.net}
 
 }

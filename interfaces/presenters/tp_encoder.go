@@ -3,7 +3,6 @@ package presenters
 import (
 	"fmt"
 	"github.com/tamura2004/httperf2/domain"
-	"github.com/tamura2004/httperf2/usecase"
 	"sort"
 )
 
@@ -33,8 +32,4 @@ func (e *TpEncoder) Encode(c *domain.Counter, name string) []string {
 	}
 
 	return rows
-}
-
-func InitTpEncoder() {
-	usecase.InitTpEncoder(&TpEncoder{})
 }

@@ -7,7 +7,7 @@ import (
 type host struct{}
 
 func (*host) Name() string {
-	return "dummy"
+	return "dummyhost"
 }
 
 func InitHost() {

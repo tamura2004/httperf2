@@ -1,9 +1,9 @@
 package infra
 
 func Init() {
+	InitLogger()
 	InitTime()
 	InitFileFactory()
-	InitLogger()
 	InitConfig("config.toml")
 	InitClient()
 	InitHost()

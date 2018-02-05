@@ -12,10 +12,10 @@ import (
 )
 
 func Netstat() {
+	h := host{}
 	f := CreateFile("NETSTAT", "csv")
 	file := io.MultiWriter(f, os.Stdout)
 	fmt.Fprintln(file, "DATE,TIME,TYPE,HOSTNAME,ESTABLISHED,CLOSE_WAIT,SYN_SENT")
-	hostname := GetHostname()
 
 	for {
 		dic := numEstablished()
@@ -23,7 +23,7 @@ func Netstat() {
 			file,
 			"%s,NETSTAT,%s,%d,%d,%d\n",
 			time.Now().Format("2006-01-02,15:04:05"),
-			hostname,
+			h.Name(),
 			dic["ESTABLISHED"],
 			dic["CLOSE_WAIT"],
 			dic["SYN_SENT"],

@@ -18,4 +18,6 @@ func (*host) Name() string {
 
 func InitHost() {
 	presenters.InitHost(&host{})
+	log.Println("init host")
+
 }

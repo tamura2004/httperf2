@@ -30,6 +30,8 @@ func InitClient() {
 	usecase.InitClient(
 		&client{Client: cl},
 	)
+	log.Println("init client")
+
 }
 
 func newTransport() *http.Transport {

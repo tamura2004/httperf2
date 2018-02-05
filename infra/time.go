@@ -2,19 +2,22 @@ package infra
 
 import (
 	"github.com/tamura2004/httperf2/domain"
+	"log"
 	"time"
 )
 
-type _time struct{}
+type Time struct{}
 
 func InitTime() {
-	domain.InitTime(&_time{})
+	domain.InitTime(&Time{})
+	log.Println("init time")
+
 }
 
-func (*_time) Now() time.Time {
+func (*Time) Now() time.Time {
 	return time.Now()
 }
 
-func (*_time) Since(t time.Time) time.Duration {
+func (*Time) Since(t time.Time) time.Duration {
 	return time.Since(t)
 }

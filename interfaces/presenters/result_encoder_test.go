@@ -17,6 +17,6 @@ func ExampleResultEncode() {
 	str := encoder.Encode(result)
 	fmt.Println(str)
 	// Output:
-	// 2018-02-01,08:00:00,RESULT,dummy,1,2,START,10s,2018-02-01,08:00:00
+	// 2018-02-01,08:00:00,RESULT,dummyhost,1,2,START,10s,2018-02-01,08:00:00
 
 }

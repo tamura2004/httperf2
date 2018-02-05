@@ -14,7 +14,7 @@ func NewJob(w, j int) Job {
 	return Job{
 		WorkerId: w,
 		JobId:    j,
-		Stime:    _time.Now(),
+		Stime:    Time.Now(),
 	}
 }
 

@@ -8,18 +8,10 @@ import (
 
 func main() {
 	infra.Init()
-
+	presenters.Init()
 	usecase.InitResultChan()
-
-	presenters.InitResultEncoder()
-	presenters.InitTpEncoder()
-	presenters.InitAveragePrinter()
 
 	go infra.Netstat()
 
-	reporter := usecase.NewReporter()
-	collector := usecase.NewCollector(reporter)
-	manager := usecase.NewManager(collector)
-
-	manager.Run()
+	usecase.Run()
 }

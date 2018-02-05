@@ -30,12 +30,12 @@ func (c *Counter) IncTp() {
 }
 
 func (c *Counter) IncTPM() {
-	t := _time.Now().Format("2006-01-02,15:04")
+	t := Time.Now().Format("2006-01-02,15:04")
 	c.TPM[t]++
 }
 
 func (c *Counter) IncTPS() {
-	t := _time.Now().Format("2006-01-02,15:04:05")
+	t := Time.Now().Format("2006-01-02,15:04:05")
 	c.TPS[t]++
 }
 
