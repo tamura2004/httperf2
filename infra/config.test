@@ -3,6 +3,9 @@ InsecureSkipVerify = true
 MaxIdleConnsPerHost = 1024
 Proxy = "http://127.0.0.1:8888/"
 Bps = 13
+UserAgent = "dummy_agent/2.0"
+UserName = "dummy_user"
+Password = "dummy_pass"
 
 [Scinario]
 WorkerNum = 3

@@ -2,6 +2,7 @@ package infra
 
 import (
 	"crypto/tls"
+	"encoding/base64"
 	"github.com/tamura2004/httperf2/usecase"
 	"io"
 	"log"
@@ -21,6 +22,13 @@ func (c *client) Get(url string) io.ReadCloser {
 
 	if ClientConfig.UserAgent != "" {
 		req.Header.Set("User-Agent", ClientConfig.UserAgent)
+	}
+
+	if ClientConfig.UserName != "" {
+		req.Header.Set("Authorization", "Basic "+basicAuth(
+			ClientConfig.UserName,
+			ClientConfig.Password,
+		))
 	}
 
 	res, err := c.Client.Do(req)
@@ -66,4 +74,9 @@ func addProxy(tr *http.Transport) *http.Transport {
 
 	tr.Proxy = http.ProxyURL(proxyURL)
 	return tr
+}
+
+func basicAuth(username, password string) string {
+	auth := username + ":" + password
+	return base64.StdEncoding.EncodeToString([]byte(auth))
 }
