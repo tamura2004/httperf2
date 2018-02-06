@@ -5,6 +5,7 @@ type clientConfig struct {
 	MaxIdleConnsPerHost int
 	Proxy               string
 	Bps                 int
+	UserAgent           string
 }
 
 var ClientConfig clientConfig

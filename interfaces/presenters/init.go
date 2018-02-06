@@ -4,5 +4,6 @@ func Init() {
 	InitResultPrinter()
 	InitTpPrinter()
 	InitAveragePrinter()
+	InitHttpBodyPrinter()
 	InitMultiPrinter()
 }

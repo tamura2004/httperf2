@@ -51,6 +51,5 @@ func (c *Counter) Average() time.Duration {
 	if c.Count == 0 {
 		return 0
 	}
-
 	return c.Total / time.Duration(c.Count)
 }

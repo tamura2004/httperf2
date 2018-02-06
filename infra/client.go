@@ -14,7 +14,16 @@ type client struct {
 }
 
 func (c *client) Get(url string) io.ReadCloser {
-	res, err := c.Client.Get(url)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if ClientConfig.UserAgent != "" {
+		req.Header.Set("User-Agent", ClientConfig.UserAgent)
+	}
+
+	res, err := c.Client.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}

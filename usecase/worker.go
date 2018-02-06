@@ -2,8 +2,6 @@ package usecase
 
 import (
 	"github.com/tamura2004/httperf2/domain"
-	"io"
-	"io/ioutil"
 )
 
 type Worker struct {
@@ -29,14 +27,9 @@ func (w *Worker) Run() {
 		r := client.Get(Target.Url)
 		resultChan <- job.TimeConnect()
 
-		w.Write(r)
+		HttpBodyPrinter.Print(r)
 		resultChan <- job.TimeFinish()
 
 		Scinario.Interval.Sleep()
 	}
-}
-
-func (w *Worker) Write(r io.ReadCloser) {
-	defer r.Close()
-	io.Copy(ioutil.Discard, r)
 }
