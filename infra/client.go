@@ -25,7 +25,7 @@ func (c *client) Get(url string) io.ReadCloser {
 	}
 
 	if ClientConfig.UserName != "" {
-		req.Header.Set("Authorization", "Basic "+basicAuth(
+		req.Header.Set("Proxy-Authorization", "Basic "+basicAuth(
 			ClientConfig.UserName,
 			ClientConfig.Password,
 		))

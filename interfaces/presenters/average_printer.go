@@ -15,6 +15,7 @@ func (p *AveragePrinter) Header() string {
 
 func (p *AveragePrinter) Print(c *domain.Counter) {
 	file := usecase.FileFactory.CreateTee("AVERAGE", "csv")
+	fmt.Fprintln(file, p.Header())
 	fmt.Fprintf(file, "%s,%s,AVERAGE,%s,%d", Date(), Time(), c.Average(), c.Count)
 }
 
