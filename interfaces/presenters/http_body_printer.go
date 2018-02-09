@@ -5,26 +5,30 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"sync"
 )
 
 type HttpBodyPrinter struct {
-	OncePrinted bool
+	Once sync.Once
 }
 
 func (p *HttpBodyPrinter) Print(r io.ReadCloser) {
 	defer r.Close()
 
-	if p.OncePrinted {
-		io.Copy(ioutil.Discard, r)
-		return
-	}
+	// if p.OncePrinted {
+	// 	return
+	// }
 
-	file := usecase.FileFactory.CreateTee("HTTP_BODY", "html")
-	io.Copy(file, r)
-	p.OncePrinted = true
+	p.Once.Do(func() {
+		file := usecase.FileFactory.CreateTee("HTTP_BODY", "html")
+		io.Copy(file, r)
+	})
+	io.Copy(ioutil.Discard, r)
+
+	// p.OncePrinted = true
 }
 
 func InitHttpBodyPrinter() {
-	usecase.InitHttpBodyPrinter(&HttpBodyPrinter{false})
+	usecase.InitHttpBodyPrinter(&HttpBodyPrinter{sync.Once{}})
 	log.Println("init http body printer")
 }

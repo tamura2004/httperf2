@@ -1,7 +1,4 @@
-*.exe
-*.log
-*.txt
-*.toml
-*.html
-*.csv
-*~
+*
+!*.go
+!*.test
+!.gitignore
