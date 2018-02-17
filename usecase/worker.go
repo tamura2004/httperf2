@@ -5,7 +5,8 @@ import (
 )
 
 type Worker struct {
-	Id int
+	Id     int
+	client Client
 }
 
 func NewWorker(id int) *Worker {
@@ -24,7 +25,7 @@ func (w *Worker) Run() {
 		job := domain.NewJob(w.Id, i)
 		resultChan <- job.TimeStart()
 
-		r := client.Get(Target.Url)
+		r := w.client.Get(Target.Url)
 		resultChan <- job.TimeConnect()
 
 		HttpBodyPrinter.Print(r)

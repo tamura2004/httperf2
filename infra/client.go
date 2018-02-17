@@ -51,6 +51,14 @@ func InitClient() {
 
 }
 
+func NewClient() usecase.Client {
+	return &client{
+		Client: http.Client{
+			Transport: newTransport(),
+		},
+	}
+}
+
 func newTransport() *http.Transport {
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{

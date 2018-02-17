@@ -6,6 +6,8 @@ import (
 	"github.com/tamura2004/httperf2/usecase"
 	"io"
 	"log"
+	"runtime"
+	"runtime/debug"
 )
 
 type MultiPrinter struct {
@@ -13,14 +15,15 @@ type MultiPrinter struct {
 }
 
 func (p *MultiPrinter) Print(c *domain.Counter) {
-	fmt.Fprintf(p.Writer, "%s,%s,MULTI,%d\n", Date(), Time(), c.Multi)
+	fmt.Fprintf(p.Writer, "%s,%s,MULTI,%d,%d\n", Date(), Time(), c.Multi, runtime.NumGoroutine())
+	debug.PrintStack()
 }
 
 func InitMultiPrinter() {
 	p := &MultiPrinter{
 		Writer: usecase.FileFactory.CreateTee("MULTI", "csv"),
 	}
-	fmt.Fprintln(p.Writer, "DATE,TIME,TYPE,MULTI")
+	fmt.Fprintln(p.Writer, "DATE,TIME,TYPE,MULTI,GOROUTINE")
 	usecase.InitMultiPrinter(p)
 	log.Println("init multi printer")
 
