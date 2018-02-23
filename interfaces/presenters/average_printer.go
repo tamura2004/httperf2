@@ -7,16 +7,14 @@ import (
 	"log"
 )
 
-type AveragePrinter struct{}
+const AVERAGE_HEADER = "DATE,TIME,TYPE,HOSTNAME,DURATION,COUNT"
 
-func (p *AveragePrinter) Header() string {
-	return "DATE,TIME,TYPE,DURATION,COUNT"
-}
+type AveragePrinter struct{}
 
 func (p *AveragePrinter) Print(c *domain.Counter) {
 	file := usecase.FileFactory.CreateTee("AVERAGE", "csv")
-	fmt.Fprintln(file, p.Header())
-	fmt.Fprintf(file, "%s,%s,AVERAGE,%s,%d", Date(), Time(), c.Average(), c.Count)
+	fmt.Fprintln(file, AVERAGE_HEADER)
+	fmt.Fprintf(file, "%s,%s,AVERAGE,%s,%s,%d", Date(), Time(), host.Name(), c.Average(), c.Count)
 }
 
 func InitAveragePrinter() {

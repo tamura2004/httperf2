@@ -7,7 +7,7 @@ import (
 	"io"
 	"log"
 	"runtime"
-	"runtime/debug"
+	// "runtime/debug"
 )
 
 type MultiPrinter struct {
@@ -15,15 +15,15 @@ type MultiPrinter struct {
 }
 
 func (p *MultiPrinter) Print(c *domain.Counter) {
-	fmt.Fprintf(p.Writer, "%s,%s,MULTI,%d,%d\n", Date(), Time(), c.Multi, runtime.NumGoroutine())
-	debug.PrintStack()
+	fmt.Fprintf(p.Writer, "%s,%s,MULTI,%s,%d,%d\n", Date(), Time(), host.Name(), c.Multi, runtime.NumGoroutine())
+	// debug.PrintStack()
 }
 
 func InitMultiPrinter() {
 	p := &MultiPrinter{
 		Writer: usecase.FileFactory.CreateTee("MULTI", "csv"),
 	}
-	fmt.Fprintln(p.Writer, "DATE,TIME,TYPE,MULTI,GOROUTINE")
+	fmt.Fprintln(p.Writer, "DATE,TIME,TYPE,HOSTNAME,MULTI,GOROUTINE")
 	usecase.InitMultiPrinter(p)
 	log.Println("init multi printer")
 

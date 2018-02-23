@@ -10,7 +10,3 @@ type fileFactory interface {
 }
 
 var FileFactory fileFactory
-
-func InitFileFactory(f fileFactory) {
-	FileFactory = f
-}

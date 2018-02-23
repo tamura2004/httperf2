@@ -20,7 +20,7 @@ func (p *ResultPrinter) Print(r *domain.Result) {
 func InitResultPrinter() {
 	p := &ResultPrinter{
 		ResultEncoder: ResultEncoder{},
-		Writer:        usecase.FileFactory.CreateTee("RESULT", "csv"),
+		Writer:        usecase.FileFactory.Create("RESULT", "csv"),
 	}
 	fmt.Fprintln(p.Writer, p.Header())
 	usecase.InitResultPrinter(p)

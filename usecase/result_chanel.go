@@ -7,5 +7,5 @@ import (
 var resultChan chan *domain.Result
 
 func InitResultChan() {
-	resultChan = make(chan *domain.Result, 1000)
+	resultChan = make(chan *domain.Result, 20000)
 }

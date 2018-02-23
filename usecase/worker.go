@@ -11,7 +11,8 @@ type Worker struct {
 
 func NewWorker(id int) *Worker {
 	return &Worker{
-		Id: id,
+		Id:     id,
+		client: ClientFactory.NewClient(),
 	}
 }
 

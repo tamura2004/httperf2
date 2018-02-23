@@ -41,14 +41,15 @@ func (c *client) Get(url string) io.ReadCloser {
 	return res.Body
 }
 
-func InitClient() {
-	tr := newTransport()
-	cl := http.Client{Transport: tr}
-	usecase.InitClient(
-		&client{Client: cl},
-	)
-	log.Println("init client")
+type ClientFactory func() usecase.Client
 
+func (f ClientFactory) NewClient() usecase.Client {
+	return f()
+}
+
+func InitClient() {
+	usecase.ClientFactory = ClientFactory(NewClient)
+	log.Println("init client")
 }
 
 func NewClient() usecase.Client {

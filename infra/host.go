@@ -8,6 +8,8 @@ import (
 
 type host struct{}
 
+var Host host
+
 func (*host) Name() string {
 	name, err := os.Hostname()
 	if err != nil {

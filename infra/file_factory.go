@@ -9,9 +9,11 @@ import (
 	"time"
 )
 
-func CreateFile(pre, ext string) *os.File {
-	timestamp := time.Now().Format("2006_01_02_15_04_05_")
-	name := fmt.Sprintf("%s%s.%s", timestamp, pre, ext)
+type FileFactory func(pre, ext string) io.Writer
+
+func CreateFile(pre, ext string) io.Writer {
+	timestamp := time.Now().Format("20060102_1504")
+	name := fmt.Sprintf("%s_%s_%s.%s", timestamp, pre, Host.Name(), ext)
 	file, err := os.OpenFile(name, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
@@ -19,19 +21,17 @@ func CreateFile(pre, ext string) *os.File {
 	return file
 }
 
-type fileFactory struct{}
+func (f FileFactory) Create(pre, ext string) io.Writer {
+	return f(pre, ext)
+}
+
+func (f FileFactory) CreateTee(pre, ext string) io.Writer {
+	file := f(pre, ext)
+	return io.MultiWriter(file, os.Stdout)
+}
 
 func InitFileFactory() {
-	usecase.InitFileFactory(&fileFactory{})
+	usecase.FileFactory = FileFactory(CreateFile)
 	log.Println("init file factory")
 
-}
-
-func (f *fileFactory) Create(pre, ext string) io.Writer {
-	return CreateFile(pre, ext)
-}
-
-func (f *fileFactory) CreateTee(pre, ext string) io.Writer {
-	file := CreateFile(pre, ext)
-	return io.MultiWriter(file, os.Stdout)
 }
